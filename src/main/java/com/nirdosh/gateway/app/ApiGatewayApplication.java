@@ -11,12 +11,14 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan("com.nirdosh.gateway")
 public class ApiGatewayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ApiGatewayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ApiGatewayApplication.class, args);
+    }
 
-	@Bean
-	RestTemplate restTemplate(RestTemplateBuilder builder){
-		return builder.build();
-	}
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
+
+
 }
