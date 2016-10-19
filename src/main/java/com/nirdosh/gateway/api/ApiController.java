@@ -13,7 +13,7 @@ public class ApiController {
 
     @RequestMapping("/api/devotee")
     public String getDevotees() {
-        String devoteeEndPoint = "http://devotee-service:8080/devotee";
+        String devoteeEndPoint = "http://user-service:8080/user";
         return restTemplate.getForObject(devoteeEndPoint, String.class);
     }
 
