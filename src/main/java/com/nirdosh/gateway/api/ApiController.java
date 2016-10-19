@@ -1,6 +1,7 @@
 package com.nirdosh.gateway.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -12,10 +13,20 @@ public class ApiController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping("/devotee")
-    public String getDevotees() {
-        String devoteeEndPoint = "http://devotee-service:8080/devotee";
+    @Value("${service.user-service}")
+    private String userService;
+
+    @Value("${service.user-service.port}")
+    private String port;
+
+    @RequestMapping("/user")
+    public String getUsers() {
+        String devoteeEndPoint = getUserServiceEndPoint();
         return restTemplate.getForObject(devoteeEndPoint, String.class);
+    }
+
+    private String getUserServiceEndPoint() {
+        return "http://"+userService+":"+port+"/user";
     }
 }
 
