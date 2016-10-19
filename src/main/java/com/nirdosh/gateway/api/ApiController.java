@@ -11,7 +11,7 @@ public class ApiController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping("/api/devotee")
+    @RequestMapping("/api/user")
     public String getDevotees() {
         String devoteeEndPoint = "http://user-service:8080/user";
         return restTemplate.getForObject(devoteeEndPoint, String.class);
