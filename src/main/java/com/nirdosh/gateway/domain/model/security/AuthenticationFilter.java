@@ -1,13 +1,9 @@
 package com.nirdosh.gateway.domain.model.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.GenericFilterBean;
@@ -18,7 +14,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.URI;
 @Component
 public class AuthenticationFilter extends GenericFilterBean {
 
@@ -48,7 +43,6 @@ public class AuthenticationFilter extends GenericFilterBean {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new ServletException("Missing or invalid Authorization header.");
         }
-
 
         final String token = authHeader.substring(BEARER.length());
 
