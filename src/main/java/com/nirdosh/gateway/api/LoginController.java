@@ -30,7 +30,8 @@ public class LoginController {
 
     private String getEndpoint(@RequestBody UserLogin login) {
         StringBuilder builder = new StringBuilder("http://")
-                .append(authenticationService)
+                .append(authenticationService).append("/")
+                .append("authentication")
                 .append("?")
                 .append("username").append("=").append(login.name)
                 .append("&")
