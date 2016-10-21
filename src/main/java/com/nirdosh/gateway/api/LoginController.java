@@ -1,19 +1,18 @@
 package com.nirdosh.gateway.api;
 
+import com.nirdosh.gateway.domain.model.LoginResponse;
 import com.nirdosh.gateway.domain.model.UserLogin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.ServletException;
 
 @RestController
 @RequestMapping("/login")
+@CrossOrigin
 public class LoginController {
 
     @Value("${service.authentication-service}:${service.authentication-service.port}")
@@ -23,9 +22,10 @@ public class LoginController {
     private RestTemplate restTemplate;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@RequestBody final UserLogin login)
+    public LoginResponse login(@RequestBody final UserLogin login)
             throws ServletException {
-        return restTemplate.getForObject(getEndpoint(login), String.class);
+        String token = restTemplate.getForObject(getEndpoint(login), String.class);
+        return new LoginResponse(token);
     }
 
     private String getEndpoint(@RequestBody UserLogin login) {
