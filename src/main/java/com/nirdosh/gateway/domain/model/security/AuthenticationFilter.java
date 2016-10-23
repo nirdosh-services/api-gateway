@@ -39,22 +39,24 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new ServletException("Missing or invalid Authorization header.");
+        if (!((HttpServletRequest) servletRequest).getMethod().equals("OPTIONS")) {
+
+            final String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                throw new ServletException("Missing or invalid Authorization header.");
+            }
+
+            final String token = authHeader.substring(BEARER.length());
+
+            try {
+                final String claims = restTemplate.getForObject(getEndpoint(token), String.class);
+                request.setAttribute("claims", claims);
+            } catch (SignatureException se) {
+                throw new ServletException("invalid token");
+            }
+            }
+            filterChain.doFilter(request, servletResponse);
         }
-
-        final String token = authHeader.substring(BEARER.length());
-
-        try {
-            final String claims = restTemplate.getForObject(getEndpoint(token), String.class);
-            request.setAttribute("claims", claims);
-        } catch (SignatureException se) {
-            throw new ServletException("invalid token");
-        }
-
-        filterChain.doFilter(request, servletResponse);
-    }
 
     public String getEndpoint(String token) {
         return new StringBuilder("http://")

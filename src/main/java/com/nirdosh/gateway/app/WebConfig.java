@@ -7,9 +7,13 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class WebConfig {
+@EnableWebMvc
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public  AuthenticationFilter authenticationFilter(){
@@ -22,5 +26,13 @@ public class WebConfig {
         filterRegistrationBean.setFilter(authenticationFilter());
         filterRegistrationBean.addUrlPatterns("/api/*");
         return filterRegistrationBean;
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
     }
 }

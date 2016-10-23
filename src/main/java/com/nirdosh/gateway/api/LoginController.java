@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin
 public class LoginController {
 
     @Value("${service.authentication-service}:${service.authentication-service.port}")
