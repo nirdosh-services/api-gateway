@@ -33,8 +33,6 @@ public class ApiController {
         return restTemplate.getForObject(userServieEndpoint+"/"+id, String.class);
     }
 
-
-
     private String getUserServiceEndPoint() {
         return "http://"+userService+":"+port+"/user";
     }
